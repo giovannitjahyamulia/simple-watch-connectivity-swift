@@ -15,11 +15,11 @@ struct ContentView: View {
     // 1. initialize WatchSession
     @ObservedObject var watchSession = WatchSession()
     
-    // 3. set variable to put the data value
-    @State private var textValue = "Haven't receive any data"
+    // 2. set variable to put the data value
+    @State private var textValue = ""
     
     var body: some View {
-        // 2. initialize Text to show the data
+        // 3. initialize Text to show the data
         Text(textValue)
             // 4. set data when receive
             .onReceive(

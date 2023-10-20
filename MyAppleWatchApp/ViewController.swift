@@ -12,21 +12,26 @@ import WatchConnectivity
 
 class ViewController: UIViewController {
     // 2. initialize Watch Session
-    var watchSession: WCSession?
+    var wcSession: WCSession?
+    
+    func addition(a: Int, b: Int) -> Int {
+        return a + b
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // 4. check Watch Session is supported or not
         if (!WCSession.isSupported()) {
-            watchSession = nil
+            wcSession = nil
             return
         }
         
         // 5. Watch Session delegate and activate
-        watchSession = WCSession.default
-        watchSession?.delegate = self
-        watchSession?.activate()
+        wcSession = WCSession.default
+        wcSession?.delegate = self
+        wcSession?.activate()
     }
     
     @IBAction func sendDataFromPhone(_ sender: Any) {
@@ -36,10 +41,10 @@ class ViewController: UIViewController {
         // 7. send data to Watch App
         do {
             // a. via Application Context
-            try watchSession?.updateApplicationContext(dict)
+            try wcSession?.updateApplicationContext(dict)
             
             // b. via Message
-            try watchSession?.sendMessage(dict, replyHandler: nil)
+            try wcSession?.sendMessage(dict, replyHandler: nil)
             
         } catch {
             print(error.localizedDescription)
@@ -57,11 +62,15 @@ extension ViewController: WCSessionDelegate {
     
     func sessionDidBecomeInactive(_ session: WCSession) {
         // do something when will be inactive
-        watchSession?.activate()
+        
+        // activate when it will be inactive
+        wcSession?.activate()
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
         // do something when inactive
-        watchSession?.activate()
+        
+        // activate when inactive
+        wcSession?.activate()
     }
 }

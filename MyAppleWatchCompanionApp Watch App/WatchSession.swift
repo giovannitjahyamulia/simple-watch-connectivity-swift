@@ -11,26 +11,31 @@ import Foundation
 import WatchConnectivity
 
 class WatchSession: NSObject, ObservableObject {
-    // 5. initialize published variable to get data
+    // 2. initialize WCSession
+    var wcSession: WCSession?
+    
+    // 7. initialize published variable to get data
     @Published var receivedData: String = "Haven't receive any data"
     
-    // 2. init
+    // 3. init
     override init() {
         super.init()
         
-        WCSession.default.delegate = self
-        WCSession.default.activate()
+        // 4. WCSession delegate and activate
+        wcSession = WCSession.default
+        wcSession?.delegate = self
+        wcSession?.activate()
     }
     
 }
 
-// 3. delegate Watch Session
+// 5. delegate WCSession
 extension WatchSession: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         // do something when active
     }
     
-    // 4. receive data
+    // 6. receive data
     // a. via Message
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         if let data = message["key"] as? String {
